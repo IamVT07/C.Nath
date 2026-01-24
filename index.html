@@ -1019,12 +1019,28 @@
                         <li><a href="#contact">Contact</a></li>
                     </ul>
                 </nav>
-                <div class="mobile-menu">
+                <div class="mobile-menu" id="mobileMenuBtn">
                     <i class="fas fa-bars"></i>
                 </div>
             </div>
         </div>
     </header>
+
+    <!-- Mobile Navigation Menu -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-close" id="mobileClose">
+            <i class="fas fa-times"></i>
+        </div>
+        <ul>
+            <li><a href="#home" class="mobile-link">Home</a></li>
+            <li><a href="#services" class="mobile-link">Services</a></li>
+            <li><a href="#about" class="mobile-link">About Us</a></li>
+            <li><a href="#parts" class="mobile-link">RO Parts</a></li>
+            <li><a href="#book" class="mobile-link">Book Now</a></li>
+            <li><a href="#testimonials" class="mobile-link">Reviews</a></li>
+            <li><a href="#contact" class="mobile-link">Contact</a></li>
+        </ul>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero" id="home">
@@ -1383,6 +1399,38 @@
     </a>
 
     <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileNav = document.getElementById('mobileNav');
+        const mobileClose = document.getElementById('mobileClose');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', function() {
+            mobileNav.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        mobileClose.addEventListener('click', function() {
+            mobileNav.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Close menu when clicking on a link
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileNav.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+
+        // Close menu when clicking outside
+        mobileNav.addEventListener('click', function(e) {
+            if (e.target === mobileNav) {
+                mobileNav.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
         // Header scroll effect
         window.addEventListener('scroll', function() {
             const header = document.getElementById('header');
@@ -1482,4 +1530,5 @@
         });
     </script>
 </body>
+
 </html>
