@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+   <url>
+      <loc>https://cnath.in/</loc>
+      <lastmod>2026-01-25</lastmod>
+      <changefreq>daily</changefreq>
+      <priority>1.00</priority>
+   </url>
+
+   <url>
+      <loc>https://cnath.in/services.html</loc>
+      <lastmod>2026-01-25</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.80</priority>
+   </url>
+
+   <url>
+      <loc>https://cnath.in/about.html</loc>
+      <lastmod>2026-01-25</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.80</priority>
+   </url>
+
+   <url>
+      <loc>https://cnath.in/ro-parts.html</loc>
+      <lastmod>2026-01-25</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.80</priority>
+   </url>
+
+   <url>
+      <loc>https://cnath.in/book-now.html</loc>
+      <lastmod>2026-01-25</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.70</priority>
+   </url>
+
+   <url>
+      <loc>https://cnath.in/reviews.html</loc>
+      <lastmod>2026-01-25</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.60</priority>
+   </url>
+
+   <url>
+      <loc>https://cnath.in/contact.html</loc>
+      <lastmod>2026-01-25</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.60</priority>
+   </url>
+
+</urlset>
