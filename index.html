@@ -1,1592 +1,968 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C.Nath Water Solution - Premium RO Services</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="icon" type="image/png" href="logo3.jpg">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --water-blue: #00B4D8;
-            --deep-water: #0077B6;
-            --light-water: #90E0EF;
-            --aqua: #00D9FF;
-            --ocean-dark: #03045E;
-            --foam: #CAF0F8;
-            --wave-gradient: linear-gradient(135deg, #00B4D8 0%, #0077B6 100%);
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #CAF0F8 0%, #90E0EF 50%, #00B4D8 100%);
-            overflow-x: hidden;
-        }
-
-        /* Water Wave Animation Background */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(135deg, #CAF0F8 0%, #90E0EF 50%, #00B4D8 100%);
-            overflow: hidden;
-        }
-
-        .wave {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 200%;
-            height: 200px;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="rgba(0,180,216,0.1)"/></svg>') repeat-x;
-            animation: wave 10s linear infinite;
-        }
-
-        .wave:nth-child(2) {
-            bottom: 10px;
-            animation: wave 7s linear infinite reverse;
-            opacity: 0.5;
-        }
-
-        .wave:nth-child(3) {
-            bottom: 20px;
-            animation: wave 15s linear infinite;
-            opacity: 0.3;
-        }
-
-        @keyframes wave {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        .droplet {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: radial-gradient(circle, rgba(0,180,216,0.8), rgba(0,119,182,0.4));
-            border-radius: 50% 50% 50% 0;
-            transform: rotate(-45deg);
-            animation: fall 8s infinite ease-in;
-            opacity: 0.6;
-        }
-
-        @keyframes fall {
-            0% {
-                top: -10%;
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.6;
-            }
-            90% {
-                opacity: 0.6;
-            }
-            100% {
-                top: 110%;
-                opacity: 0;
-            }
-        }
-
-        /* Header */
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 20px rgba(0, 180, 216, 0.2);
-            transition: all 0.3s ease;
-            border-bottom: 3px solid var(--light-water);
-        }
-
-        header.scrolled {
-            padding: 0.5rem 0;
-            box-shadow: 0 4px 30px rgba(0, 180, 216, 0.3);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .logo {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 5px 20px rgba(0, 180, 216, 0.4);
-            animation: float 3s ease-in-out infinite;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .brand-info h1 {
-            font-size: 1.8rem;
-            background: var(--wave-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 700;
-        }
-
-        .brand-info p {
-            font-size: 0.85rem;
-            color: var(--deep-water);
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: var(--ocean-dark);
-            font-weight: 600;
-            transition: color 0.3s;
-            position: relative;
-        }
-
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--wave-gradient);
-            transition: width 0.3s;
-        }
-
-        nav a:hover {
-            color: var(--water-blue);
-        }
-
-        nav a:hover::after {
-            width: 100%;
-        }
-
-        /* Hero Section */
-        .hero {
-            margin-top: 100px;
-            padding: 100px 0;
-            text-align: center;
-            color: white;
-            position: relative;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle, rgba(0,180,216,0.3), transparent);
-        }
-
-        .hero h2 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            animation: fadeInUp 1s ease;
-            text-shadow: 2px 2px 10px rgba(0,119,182,0.3);
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 30px;
-            animation: fadeInUp 1s ease 0.2s both;
-            text-shadow: 1px 1px 5px rgba(0,119,182,0.3);
-            position: relative;
-            z-index: 1;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 15px 40px;
-            background: white;
-            color: var(--deep-water);
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 700;
-            box-shadow: 0 10px 30px rgba(0, 119, 182, 0.3);
-            transition: transform 0.3s, box-shadow 0.3s;
-            animation: fadeInUp 1s ease 0.4s both;
-            position: relative;
-            z-index: 1;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 119, 182, 0.4);
-            background: var(--foam);
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Features Section */
-        .features {
-            background: white;
-            padding: 80px 0;
-            margin-top: -50px;
-            border-radius: 50px 50px 0 0;
-            position: relative;
-        }
-
-        .features::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--light-water), var(--water-blue), var(--deep-water), var(--water-blue), var(--light-water));
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-
-        .feature-card {
-            padding: 30px;
-            text-align: center;
-            border-radius: 20px;
-            background: linear-gradient(145deg, #ffffff, #f0f9ff);
-            box-shadow: 0 10px 30px rgba(0, 180, 216, 0.15);
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 2px solid var(--foam);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 180, 216, 0.25);
-            border-color: var(--light-water);
-        }
-
-        .feature-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 20px;
-            background: var(--wave-gradient);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 35px;
-            box-shadow: 0 5px 20px rgba(0, 180, 216, 0.3);
-        }
-
-        .feature-card h3 {
-            margin-bottom: 15px;
-            color: var(--deep-water);
-        }
-
-        .feature-card p {
-            color: #555;
-        }
-
-        /* Book Service Section */
-        .book-service {
-            background: linear-gradient(135deg, #00B4D8 0%, #0077B6 100%);
-            padding: 80px 0;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .book-service::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="rgba(255,255,255,0.05)"/></svg>') repeat-x;
-            opacity: 0.3;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .booking-form {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            max-width: 600px;
-            margin: 0 auto;
-            box-shadow: 0 20px 60px rgba(3, 4, 94, 0.4);
-            position: relative;
-            z-index: 1;
-            border: 3px solid var(--light-water);
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--ocean-dark);
-            font-weight: 600;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid var(--foam);
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--water-blue);
-            box-shadow: 0 0 15px rgba(0, 180, 216, 0.2);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 15px;
-            background: var(--wave-gradient);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 180, 216, 0.5);
-        }
-
-        /* About Us Section */
-        .about-us {
-            background: white;
-            padding: 80px 0;
-        }
-
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 50px;
-            margin-top: 50px;
-        }
-
-        .owner-section {
-            display: flex;
-            gap: 30px;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .owner-image {
-            position: relative;
-            width: 200px;
-            height: 200px;
-        }
-
-        .owner-image img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid var(--light-water);
-            box-shadow: 0 10px 40px rgba(0, 180, 216, 0.3);
-        }
-
-        .owner-badge {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
-            border: 3px solid white;
-        }
-
-        .owner-badge i {
-            color: #fff;
-            font-size: 20px;
-        }
-
-        .owner-info {
-            text-align: left;
-        }
-
-        .owner-info h3 {
-            font-size: 2rem;
-            color: var(--deep-water);
-            margin-bottom: 5px;
-        }
-
-        .owner-title {
-            color: var(--water-blue);
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .owner-experience {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .exp-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 20px;
-            background: var(--foam);
-            border-radius: 25px;
-            color: var(--deep-water);
-            font-weight: 600;
-        }
-
-        .exp-item i {
-            color: var(--water-blue);
-        }
-
-        .about-text {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .about-text p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #555;
-            margin-bottom: 20px;
-            text-align: justify;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .stat-card {
-            text-align: center;
-            padding: 25px;
-            background: var(--wave-gradient);
-            border-radius: 15px;
-            color: white;
-            box-shadow: 0 5px 20px rgba(0, 180, 216, 0.3);
-            transition: transform 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        /* RO Parts Store Section */
-        .ro-parts-store {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f7ff 100%);
-            padding: 80px 0;
-        }
-
-        .parts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        .part-card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 180, 216, 0.15);
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 2px solid var(--foam);
-        }
-
-        .part-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 180, 216, 0.25);
-        }
-
-        .part-image {
-            position: relative;
-            height: 220px;
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .part-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            padding: 20px;
-            transition: transform 0.3s;
-        }
-
-        .part-card:hover .part-image img {
-            transform: scale(1.1);
-        }
-
-        .part-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            box-shadow: 0 3px 10px rgba(255, 107, 107, 0.3);
-        }
-
-        .part-badge.premium {
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
-            color: #333;
-        }
-
-        .part-info {
-            padding: 20px;
-        }
-
-        .part-info h3 {
-            font-size: 1.3rem;
-            color: var(--deep-water);
-            margin-bottom: 10px;
-        }
-
-        .part-info p {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-            min-height: 40px;
-        }
-
-        .part-price {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--water-blue);
-            margin-bottom: 15px;
-        }
-
-        .order-btn {
-            width: 100%;
-            padding: 12px;
-            background: var(--wave-gradient);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .order-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 180, 216, 0.4);
-        }
-
-        /* Testimonials Section */
-        .testimonials {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f7ff 100%);
-            padding: 80px 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .testimonials::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--light-water), var(--water-blue), var(--deep-water), var(--water-blue), var(--light-water));
-        }
-
-        .testimonials::after {
-            content: '';
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(0,180,216,0.1), transparent);
-            border-radius: 50%;
-            top: -150px;
-            right: -150px;
-        }
-
-        .testimonial-container {
-            max-width: 1000px;
-            margin: 50px auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .testimonial-card {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 180, 216, 0.15);
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 2px solid var(--foam);
-            position: relative;
-        }
-
-        .testimonial-card::before {
-            content: '"';
-            position: absolute;
-            top: -10px;
-            left: 20px;
-            font-size: 80px;
-            color: var(--light-water);
-            font-family: Georgia, serif;
-            line-height: 1;
-        }
-
-        .testimonial-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 180, 216, 0.25);
-            border-color: var(--light-water);
-        }
-
-        .testimonial-card p {
-            font-size: 1rem;
-            font-style: italic;
-            margin-bottom: 20px;
-            color: #555;
-            line-height: 1.8;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .author-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--wave-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 20px;
-        }
-
-        .author-info {
-            flex: 1;
-        }
-
-        .author-name {
-            font-weight: 700;
-            color: var(--deep-water);
-            margin-bottom: 5px;
-        }
-
-        .stars {
-            color: #ffc107;
-            font-size: 1.2rem;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--ocean-dark);
-            color: white;
-            padding: 60px 0 20px;
-            position: relative;
-        }
-
-        footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--light-water), var(--water-blue), var(--deep-water), var(--water-blue), var(--light-water));
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .footer-section h3 {
-            margin-bottom: 20px;
-            color: var(--light-water);
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section ul li {
-            margin-bottom: 10px;
-        }
-
-        .footer-section a {
-            color: #ccc;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-section a:hover {
-            color: var(--light-water);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .social-links a {
-            width: 45px;
-            height: 45px;
-            background: var(--wave-gradient);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 20px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 5px 15px rgba(0, 180, 216, 0.3);
-        }
-
-        .social-links a:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 180, 216, 0.5);
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid rgba(144, 224, 239, 0.2);
-            color: #aaa;
-        }
-
-        /* Floating Contact Button */
-        .floating-contact {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: var(--wave-gradient);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-            box-shadow: 0 10px 30px rgba(0, 180, 216, 0.5);
-            cursor: pointer;
-            transition: transform 0.3s;
-            z-index: 999;
-            animation: pulse 2s infinite;
-            text-decoration: none;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                box-shadow: 0 10px 30px rgba(0, 180, 216, 0.5);
-            }
-            50% {
-                box-shadow: 0 10px 50px rgba(0, 180, 216, 0.8);
-            }
-        }
-
-        .floating-contact:hover {
-            transform: scale(1.1);
-        }
-
-         /* Mobile Menu */
-        .mobile-menu {
-            display: none;
-        }
-
-        .mobile-nav {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 9999;
-            padding-top: 80px;
-        }
-
-        .mobile-nav.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .mobile-nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .mobile-nav ul li {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .mobile-nav ul li a {
-            display: block;
-            padding: 20px 30px;
-            color: white;
-            text-decoration: none;
-            font-size: 1.2rem;
-            font-weight: 600;
-            transition: background 0.3s;
-        }
-
-        .mobile-nav ul li a:hover {
-            background: var(--wave-gradient);
-        }
-
-        .mobile-close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 2rem;
-            color: white;
-            cursor: pointer;
-            z-index: 10000;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h2 {
-                font-size: 2rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            nav ul {
-                display: none;
-            }
-
-            .mobile-menu {
-                display: block;
-                font-size: 1.5rem;
-                cursor: pointer;
-                color: var(--deep-water);
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .booking-form {
-                padding: 25px;
-            }
-
-            .testimonial-container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Success Message */
-        .success-message {
-            display: none;
-            padding: 15px;
-            background: linear-gradient(135deg, #4caf50, #45a049);
-            color: white;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
-        }
-
-        .success-message.show {
-            display: block;
-            animation: slideDown 0.5s ease;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RO Service &amp; Water Softener in Mehrauli, Delhi | C.Nath Water Solution</title>
+<meta name="description" content="C.Nath Water Solution provides RO installation, repair, AMC, water softener installation &amp; genuine spare parts in Mehrauli, New Delhi and nearby South Delhi areas. 15+ years experience, same-day service.">
+<meta name="keywords" content="RO service Mehrauli, RO repair Delhi, water purifier service Mehrauli Delhi, water softener installation Delhi, water softener service Mehrauli, RO AMC Mehrauli, hard water solution Delhi, RO technician near me, water purifier repair South Delhi, RO membrane replacement Delhi">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://cnathwatersolution.in/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="business.business">
+<meta property="og:title" content="RO Service &amp; Water Softener in Mehrauli, Delhi | C.Nath Water Solution">
+<meta property="og:description" content="Trusted RO &amp; water softener installation, repair and AMC in Mehrauli, New Delhi. 5000+ happy customers, 15+ years experience.">
+<meta property="og:image" content="logo3.jpg">
+<meta property="og:locale" content="en_IN">
+<meta property="business:contact_data:locality" content="Mehrauli">
+<meta property="business:contact_data:region" content="Delhi">
+<meta property="business:contact_data:country_name" content="India">
+
+<link rel="icon" type="image/png" href="logo3.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Plumber",
+  "name": "C.Nath Water Solution",
+  "image": "logo3.jpg",
+  "telephone": "+91-9953526220",
+  "email": "rajrshdubey2052@gmail.com",
+  "priceRange": "₹₹",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Mehrauli",
+    "addressLocality": "New Delhi",
+    "addressRegion": "DL",
+    "postalCode": "110030",
+    "addressCountry": "IN"
+  },
+  "geo": { "@type": "GeoCoordinates", "latitude": 28.5245, "longitude": 77.1855 },
+  "areaServed": ["Mehrauli", "Chattarpur", "Saket", "Vasant Kunj", "Vasant Vihar", "Malviya Nagar", "Sainik Farm", "Aya Nagar", "Green Park", "Hauz Khas", "New Delhi"],
+  "openingHoursSpecification": { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], "opens": "08:00", "closes": "20:00" },
+  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "reviewCount": "512" },
+  "sameAs": ["https://facebook.com", "https://instagram.com", "https://twitter.com"],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Water Treatment Services",
+    "itemListElement": [
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"RO Installation"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"RO Repair & Maintenance"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Water Softener Installation"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Water Softener Service & Salt Refill"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Annual Maintenance Contract"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Water Quality Testing"}}
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Do you provide RO service in Mehrauli, Delhi?","acceptedAnswer":{"@type":"Answer","text":"Yes. C.Nath Water Solution is based in Mehrauli and covers Mehrauli plus nearby South Delhi localities including Chattarpur, Saket, Vasant Kunj and Aya Nagar for RO and water softener service."}},
+    {"@type":"Question","name":"Is Delhi's water hard, and do I need a water softener?","acceptedAnswer":{"@type":"Answer","text":"Many homes in South Delhi run on borewell or tanker water, which tends to be harder than municipal supply. A softener fitted before your RO unit reduces scaling on pipes, geysers and the RO membrane itself."}},
+    {"@type":"Question","name":"What does RO service cost in Mehrauli?","acceptedAnswer":{"@type":"Answer","text":"Pricing depends on the issue and parts needed. Share your requirement through the booking form or call us for a transparent quote before any work begins."}},
+    {"@type":"Question","name":"Do you offer an Annual Maintenance Contract (AMC)?","acceptedAnswer":{"@type":"Answer","text":"Yes, we offer AMC plans covering scheduled filter changes, membrane checks and priority repair visits."}},
+    {"@type":"Question","name":"How fast can a technician reach me in Mehrauli or nearby areas?","acceptedAnswer":{"@type":"Answer","text":"Most Mehrauli-area requests are scheduled same-day or next available slot; emergency repair requests get priority."}},
+    {"@type":"Question","name":"Can you install a water softener alongside my existing RO?","acceptedAnswer":{"@type":"Answer","text":"Yes, softeners are commonly fitted ahead of an existing RO system without replacing the RO unit itself."}}
+  ]
+}
+</script>
+
+<style>
+:root{
+  --ink:#0B1220;
+  --ink-2:#111C30;
+  --panel:#16233A;
+  --teal:#1FB6A6;
+  --teal-deep:#0E7C74;
+  --brass:#C68A3D;
+  --brass-light:#E7B570;
+  --foam:#F2F7F6;
+  --paper:#FFFFFF;
+  --line:#DCE6E4;
+  --text:#1B2430;
+  --muted:#5B6B76;
+  --mono:'IBM Plex Mono', monospace;
+  --display:'Space Grotesk', sans-serif;
+  --body:'Inter', sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--body);
+  color:var(--text);
+  background:var(--foam);
+  line-height:1.6;
+}
+a{color:inherit;}
+img{max-width:100%;display:block;}
+.eyebrow{
+  font-family:var(--mono);
+  font-size:.72rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--teal-deep);
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:14px;
+}
+.eyebrow::before{content:'//';color:var(--brass);font-weight:600;}
+.container{max-width:1200px;margin:0 auto;padding:0 24px;}
+h1,h2,h3,h4{font-family:var(--display);color:var(--ink);letter-spacing:-.01em;}
+.section-title{font-size:clamp(1.9rem,3.6vw,2.7rem);margin-bottom:8px;}
+.section-sub{color:var(--muted);max-width:640px;margin-bottom:44px;font-size:1.02rem;}
+.section{padding:96px 0;}
+.section.dark{background:var(--ink);color:#dfe8e7;}
+.section.dark h2, .section.dark h3, .section.dark h4{color:#fff;}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:15px 30px;border-radius:8px;font-weight:600;
+  text-decoration:none;border:none;cursor:pointer;
+  font-family:var(--body);font-size:.98rem;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.btn-primary{background:var(--brass);color:#1a1205;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(198,138,61,.4);}
+.btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35);}
+.btn-outline:hover{border-color:var(--teal);color:var(--teal);}
+.btn-ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.15);}
+
+/* ===== Header ===== */
+header{
+  position:fixed;top:0;left:0;width:100%;z-index:1000;
+  background:rgba(11,18,32,.82);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  transition:padding .25s ease;
+}
+header.scrolled{padding:2px 0;background:rgba(11,18,32,.97);}
+.header-content{display:flex;align-items:center;justify-content:space-between;padding:16px 0;}
+header.scrolled .header-content{padding:10px 0;}
+.logo-section{display:flex;align-items:center;gap:14px;}
+.logo{width:48px;height:48px;border-radius:10px;overflow:hidden;background:var(--teal-deep);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo img{width:100%;height:100%;object-fit:cover;}
+.brand-info h1{font-size:1.15rem;color:#fff;line-height:1.1;}
+.brand-info p{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;color:var(--brass-light);text-transform:uppercase;margin-top:3px;}
+nav ul{display:flex;list-style:none;gap:28px;}
+nav a{text-decoration:none;color:#c7d4d2;font-weight:500;font-size:.92rem;transition:color .2s;}
+nav a:hover{color:var(--teal);}
+.mobile-menu{display:none;color:#fff;font-size:1.4rem;cursor:pointer;}
+.mobile-nav{display:none;position:fixed;inset:0;background:var(--ink);z-index:9999;padding-top:90px;}
+.mobile-nav.active{display:block;animation:fadeIn .25s ease;}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.mobile-nav ul{list-style:none;}
+.mobile-nav ul li{border-bottom:1px solid rgba(255,255,255,.08);}
+.mobile-nav ul li a{display:block;padding:18px 28px;color:#fff;text-decoration:none;font-size:1.1rem;font-weight:600;}
+.mobile-close{position:absolute;top:22px;right:26px;font-size:1.8rem;color:#fff;cursor:pointer;}
+
+/* ===== Hero ===== */
+.hero{
+  background:
+    radial-gradient(ellipse at 15% 0%, rgba(31,182,166,.18), transparent 55%),
+    radial-gradient(ellipse at 90% 20%, rgba(198,138,61,.12), transparent 50%),
+    var(--ink);
+  color:#fff;padding:168px 0 100px;position:relative;overflow:hidden;
+}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center;}
+.hero h2{font-size:clamp(2.2rem,4.6vw,3.4rem);line-height:1.08;margin-bottom:22px;}
+.hero h2 span{color:var(--teal);}
+.hero p.lead{color:#aebdc0;font-size:1.12rem;max-width:520px;margin-bottom:32px;}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:40px;}
+.locality-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;padding:6px 12px;border:1px solid rgba(255,255,255,.15);border-radius:20px;color:#9fb3b0;}
+
+/* Readout card - signature element */
+.readout{
+  background:var(--panel);border:1px solid rgba(31,182,166,.25);border-radius:16px;
+  padding:30px;box-shadow:0 30px 60px rgba(0,0,0,.4);
+}
+.readout-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;}
+.readout-head .dot{width:9px;height:9px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px var(--teal);animation:blink 1.6s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+.readout-title{font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;color:#8fa3a0;text-transform:uppercase;}
+.readout-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px;}
+.readout-stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:16px;}
+.readout-stat .label{font-family:var(--mono);font-size:.68rem;color:#7d918e;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;}
+.readout-stat .value{font-family:var(--mono);font-size:2rem;font-weight:600;}
+.readout-stat.raw .value{color:#e08a4f;}
+.readout-stat.pure .value{color:var(--teal);}
+.readout-stat .unit{font-size:.9rem;color:#7d918e;margin-left:4px;}
+.readout-bar{height:6px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:10px;}
+.readout-bar span{display:block;height:100%;border-radius:3px;width:0%;transition:width 1.4s cubic-bezier(.2,.8,.2,1);}
+.readout-stat.raw .readout-bar span{background:#e08a4f;}
+.readout-stat.pure .readout-bar span{background:var(--teal);}
+.readout-foot{font-size:.8rem;color:#7d918e;border-top:1px dashed rgba(255,255,255,.12);padding-top:14px;}
+
+/* ===== Trust bar ===== */
+.trust-bar{background:var(--paper);border-bottom:1px solid var(--line);padding:26px 0;}
+.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center;}
+.trust-item .num{font-family:var(--display);font-weight:700;font-size:1.8rem;color:var(--ink);}
+.trust-item .cap{font-size:.8rem;color:var(--muted);font-family:var(--mono);text-transform:uppercase;letter-spacing:.05em;}
+
+/* ===== Services ===== */
+.section.light{background:var(--paper);}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;}
+.service-card{
+  background:var(--foam);border:1px solid var(--line);border-radius:14px;padding:28px;
+  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  position:relative;overflow:hidden;
+}
+.service-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(14,124,116,.12);border-color:var(--teal);}
+.service-card .icon{width:52px;height:52px;border-radius:10px;background:var(--ink);color:var(--teal);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:18px;}
+.service-card h3{font-size:1.15rem;margin-bottom:8px;}
+.service-card p{color:var(--muted);font-size:.92rem;margin-bottom:14px;}
+.service-card .tag{font-family:var(--mono);font-size:.68rem;color:var(--brass);letter-spacing:.05em;text-transform:uppercase;}
+
+/* ===== Softener spotlight ===== */
+.softener-section{background:linear-gradient(180deg,var(--ink) 0%, var(--ink-2) 100%);color:#fff;}
+.softener-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
+.softener-copy p{color:#aebdc0;margin-bottom:18px;}
+.softener-points{list-style:none;margin-top:24px;}
+.softener-points li{display:flex;gap:12px;margin-bottom:14px;font-size:.96rem;color:#d6dfde;}
+.softener-points i{color:var(--teal);margin-top:3px;}
+
+.calc-card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:28px;}
+.calc-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+.calc-field label{display:block;font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:#8fa3a0;margin-bottom:8px;}
+.calc-field select, .calc-field input{
+  width:100%;padding:11px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.04);color:#fff;font-family:var(--body);font-size:.94rem;
+}
+.calc-btn{width:100%;margin-top:6px;}
+.calc-result{
+  margin-top:20px;padding:18px;border-radius:10px;background:rgba(31,182,166,.08);
+  border:1px dashed rgba(31,182,166,.4);font-size:.92rem;color:#d6dfde;display:none;
+}
+.calc-result.show{display:block;animation:fadeIn .3s ease;}
+.calc-result strong{color:var(--teal);font-family:var(--mono);}
+
+/* ===== About ===== */
+.about-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:center;}
+.owner-card{background:var(--foam);border:1px solid var(--line);border-radius:16px;padding:28px;text-align:center;}
+.owner-image{width:150px;height:150px;margin:0 auto 18px;position:relative;}
+.owner-image img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:4px solid var(--paper);box-shadow:0 10px 30px rgba(14,124,116,.2);}
+.owner-badge{position:absolute;bottom:4px;right:4px;width:36px;height:36px;background:var(--brass);border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid var(--paper);color:#1a1205;}
+.owner-card h3{font-size:1.3rem;}
+.owner-card .role{color:var(--teal-deep);font-weight:600;font-size:.9rem;margin-bottom:16px;}
+.owner-exp{display:flex;flex-direction:column;gap:8px;margin-top:16px;}
+.owner-exp span{font-family:var(--mono);font-size:.78rem;color:var(--muted);background:var(--paper);border:1px solid var(--line);padding:8px 12px;border-radius:8px;}
+.about-text p{color:var(--muted);margin-bottom:16px;font-size:1rem;}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:28px;}
+.stat-card{text-align:center;padding:20px 12px;background:var(--ink);border-radius:12px;color:#fff;}
+.stat-card .stat-number{font-family:var(--display);font-weight:700;font-size:1.7rem;color:var(--teal);}
+.stat-card .stat-label{font-size:.74rem;color:#9fb3b0;font-family:var(--mono);text-transform:uppercase;margin-top:4px;}
+
+/* ===== Parts store ===== */
+.parts-tabs{display:flex;gap:10px;margin-bottom:32px;flex-wrap:wrap;}
+.parts-tab{padding:10px 20px;border-radius:24px;border:1px solid var(--line);background:var(--paper);cursor:pointer;font-weight:600;font-size:.88rem;color:var(--muted);transition:all .2s;}
+.parts-tab.active{background:var(--ink);color:var(--teal);border-color:var(--ink);}
+.parts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px;}
+.part-card{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:transform .25s, box-shadow .25s;}
+.part-card:hover{transform:translateY(-6px);box-shadow:0 18px 36px rgba(14,124,116,.12);}
+.part-image{position:relative;height:200px;background:var(--foam);display:flex;align-items:center;justify-content:center;}
+.part-image img{max-height:160px;object-fit:contain;padding:16px;}
+.part-badge{position:absolute;top:10px;right:10px;background:var(--brass);color:#1a1205;padding:4px 12px;border-radius:16px;font-size:.72rem;font-weight:700;}
+.part-badge.premium{background:var(--teal);color:#06231f;}
+.part-info{padding:20px;}
+.part-info h3{font-size:1.08rem;margin-bottom:6px;}
+.part-info p{color:var(--muted);font-size:.85rem;margin-bottom:12px;min-height:38px;}
+.part-price{font-family:var(--mono);font-size:1.5rem;font-weight:600;color:var(--ink);margin-bottom:14px;}
+.order-btn{width:100%;padding:12px;background:var(--ink);color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s;}
+.order-btn:hover{background:var(--teal-deep);}
+
+/* ===== Areas served ===== */
+.areas-section{background:var(--foam);}
+.areas-wrap{display:flex;flex-wrap:wrap;gap:10px;}
+.area-chip{font-family:var(--mono);font-size:.82rem;padding:9px 16px;background:var(--paper);border:1px solid var(--line);border-radius:8px;color:var(--ink);}
+.area-chip i{color:var(--brass);margin-right:6px;}
+
+/* ===== Booking ===== */
+.book-section{background:var(--ink);color:#fff;}
+.booking-form{background:var(--paper);color:var(--text);padding:36px;border-radius:16px;max-width:640px;margin:0 auto;box-shadow:0 30px 70px rgba(0,0,0,.35);}
+.form-group{margin-bottom:20px;}
+.form-group label{display:block;margin-bottom:8px;font-weight:600;font-size:.9rem;color:var(--ink);}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:8px;font-size:.96rem;font-family:var(--body);
+  transition:border-color .2s;
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--teal);}
+.form-group textarea{resize:vertical;min-height:90px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+#softenerExtra{display:none;}
+#softenerExtra.show{display:block;animation:fadeIn .3s ease;}
+.submit-btn{width:100%;padding:15px;background:var(--brass);color:#1a1205;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;transition:transform .2s;}
+.submit-btn:hover{transform:translateY(-2px);}
+.success-message{display:none;padding:14px;background:var(--teal);color:#06231f;border-radius:8px;margin-bottom:18px;text-align:center;font-weight:600;}
+.success-message.show{display:block;animation:fadeIn .4s ease;}
+
+/* ===== FAQ ===== */
+.faq-list{max-width:800px;margin:0 auto;}
+.faq-item{border:1px solid var(--line);border-radius:12px;margin-bottom:12px;overflow:hidden;background:var(--paper);}
+.faq-q{padding:20px 22px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-weight:600;font-family:var(--display);}
+.faq-q i{transition:transform .25s;color:var(--teal-deep);}
+.faq-item.open .faq-q i{transform:rotate(45deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+.faq-a p{padding:0 22px 20px;color:var(--muted);font-size:.94rem;}
+
+/* ===== Testimonials ===== */
+.testimonials-section{background:var(--paper);}
+.testimonial-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;}
+.testimonial-card{background:var(--foam);padding:28px;border-radius:14px;border:1px solid var(--line);position:relative;opacity:0;transform:translateY(24px);transition:opacity .6s ease, transform .6s ease;}
+.testimonial-card p{font-style:italic;color:var(--text);margin-bottom:18px;}
+.testimonial-author{display:flex;align-items:center;gap:14px;}
+.author-avatar{width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--teal);display:flex;align-items:center;justify-content:center;font-weight:700;font-family:var(--display);}
+.author-name{font-weight:700;font-size:.92rem;}
+.author-loc{font-size:.76rem;color:var(--muted);font-family:var(--mono);}
+.stars{color:var(--brass);font-size:1rem;margin-top:2px;}
+
+/* ===== Footer ===== */
+footer{background:var(--ink-2);color:#c7d4d2;padding:60px 0 24px;}
+.footer-content{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:40px;margin-bottom:40px;}
+.footer-section h3{color:var(--teal);font-size:1rem;margin-bottom:16px;font-family:var(--display);}
+.footer-section ul{list-style:none;}
+.footer-section ul li{margin-bottom:9px;font-size:.92rem;}
+.footer-section a{text-decoration:none;color:#9fb3b0;transition:color .2s;}
+.footer-section a:hover{color:var(--teal);}
+.social-links{display:flex;gap:12px;margin-top:18px;}
+.social-links a{width:38px;height:38px;background:rgba(255,255,255,.06);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;transition:background .2s;}
+.social-links a:hover{background:var(--teal-deep);}
+.copyright{text-align:center;padding-top:24px;border-top:1px solid rgba(255,255,255,.08);color:#7d918e;font-size:.84rem;}
+
+/* ===== Floating buttons ===== */
+.floating-stack{position:fixed;bottom:26px;right:26px;display:flex;flex-direction:column;gap:12px;z-index:999;}
+.fab{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.3rem;text-decoration:none;box-shadow:0 12px 28px rgba(0,0,0,.28);transition:transform .2s;}
+.fab:hover{transform:scale(1.08);}
+.fab.call{background:var(--brass);color:#1a1205;}
+.fab.whatsapp{background:#25D366;}
+
+@media (max-width:900px){
+  .hero-grid,.about-grid,.softener-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .trust-grid{grid-template-columns:repeat(2,1fr);}
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  .footer-content{grid-template-columns:1fr 1fr;}
+}
+@media (max-width:768px){
+  nav ul{display:none;}
+  .mobile-menu{display:block;}
+  .section{padding:64px 0;}
+  .readout-row{grid-template-columns:1fr;}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.01ms !important; transition-duration:.01ms !important;}
+}
+</style>
 </head>
 <body>
-    <!-- Water Wave Animation Background -->
-    <div class="bg-animation">
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <!-- Water Droplets -->
-        <div class="droplet" style="left: 10%; animation-delay: 0s;"></div>
-        <div class="droplet" style="left: 25%; animation-delay: 2s;"></div>
-        <div class="droplet" style="left: 40%; animation-delay: 1s;"></div>
-        <div class="droplet" style="left: 55%; animation-delay: 4s;"></div>
-        <div class="droplet" style="left: 70%; animation-delay: 3s;"></div>
-        <div class="droplet" style="left: 85%; animation-delay: 5s;"></div>
-        <div class="droplet" style="left: 15%; animation-delay: 6s;"></div>
-        <div class="droplet" style="left: 90%; animation-delay: 2.5s;"></div>
+
+<header id="header">
+  <div class="container header-content">
+    <div class="logo-section">
+      <div class="logo">
+        <img src="logo3.jpg" alt="C.Nath Water Solution logo - RO service Mehrauli Delhi" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fas fa-tint\' style=\'font-size:20px;color:#fff\'></i>'">
+      </div>
+      <div class="brand-info">
+        <h1>C.Nath Water Solution</h1>
+        <p>RO &amp; Softener · Mehrauli, Delhi</p>
+      </div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#softener">Softener</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#parts">Parts</a></li>
+        <li><a href="#areas">Areas</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#book">Book Now</a></li>
+      </ul>
+    </nav>
+    <div class="mobile-menu" id="mobileMenuBtn"><i class="fas fa-bars"></i></div>
+  </div>
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+  <div class="mobile-close" id="mobileClose"><i class="fas fa-times"></i></div>
+  <ul>
+    <li><a href="#home" class="mobile-link">Home</a></li>
+    <li><a href="#services" class="mobile-link">Services</a></li>
+    <li><a href="#softener" class="mobile-link">Water Softener</a></li>
+    <li><a href="#about" class="mobile-link">About Us</a></li>
+    <li><a href="#parts" class="mobile-link">RO Parts</a></li>
+    <li><a href="#areas" class="mobile-link">Areas We Serve</a></li>
+    <li><a href="#faq" class="mobile-link">FAQ</a></li>
+    <li><a href="#book" class="mobile-link">Book Now</a></li>
+  </ul>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="container hero-grid">
+    <div>
+      <div class="eyebrow">SERVICE AREA · MEHRAULI, NEW DELHI</div>
+      <h2>RO &amp; Water Softener specialists for <span>Mehrauli &amp; South Delhi</span> homes</h2>
+      <p class="lead">Same-day RO installation, repair, AMC and water softener fitting from a technician team that's worked South Delhi's hard, borewell-fed water for 15+ years.</p>
+      <div class="hero-ctas">
+        <a href="#book" class="btn btn-primary"><i class="fas fa-calendar-check"></i> Book a Service</a>
+        <a href="tel:+919953526220" class="btn btn-outline"><i class="fas fa-phone"></i> Call Now</a>
+      </div>
+      <div class="locality-chips">
+        <span class="chip">Mehrauli</span><span class="chip">Chattarpur</span><span class="chip">Saket</span><span class="chip">Vasant Kunj</span><span class="chip">Aya Nagar</span>
+      </div>
     </div>
 
-    <!-- Header -->
-    <header id="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo-section">
-                    <div class="logo">
-                        <img src="logo3.jpg" alt="C.Nath Water Solution Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fas fa-tint\' style=\'font-size: 30px; color: white;\'></i>'">
-                    </div>
-                    <div class="brand-info">
-                        <h1>C.Nath Water Solution</h1>
-                        <p>Pure Water, Pure Life</p>
-                    </div>
-                </div>
-                <nav>
-                    <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#services">Services</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#parts">RO Parts</a></li>
-                        <li><a href="#book">Book Now</a></li>
-                        <li><a href="#testimonials">Reviews</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </nav>
-                <div class="mobile-menu" id="mobileMenuBtn">
-                    <i class="fas fa-bars"></i>
-                </div>
-            </div>
+    <div class="readout">
+      <div class="readout-head">
+        <div class="readout-title">Water Quality Snapshot</div>
+        <div class="dot"></div>
+      </div>
+      <div class="readout-row">
+        <div class="readout-stat raw">
+          <div class="label">Raw Input · TDS</div>
+          <div class="value" id="tdsRaw">0<span class="unit">ppm</span></div>
+          <div class="readout-bar"><span id="barRaw"></span></div>
         </div>
-    </header>
+        <div class="readout-stat pure">
+          <div class="label">RO Output · TDS</div>
+          <div class="value" id="tdsPure">0<span class="unit">ppm</span></div>
+          <div class="readout-bar"><span id="barPure"></span></div>
+        </div>
+      </div>
+      <div class="readout-foot">Typical range for borewell/tanker-fed homes in the Mehrauli area — actual readings vary by source. Book a free on-site test for your exact numbers.</div>
+    </div>
+  </div>
+</section>
 
-    <!-- Mobile Navigation Menu -->
-    <div class="mobile-nav" id="mobileNav">
-        <div class="mobile-close" id="mobileClose">
-            <i class="fas fa-times"></i>
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="container trust-grid">
+    <div class="trust-item"><div class="num" data-count="5000">0</div><div class="cap">Happy Customers</div></div>
+    <div class="trust-item"><div class="num" data-count="15">0</div><div class="cap">Years Experience</div></div>
+    <div class="trust-item"><div class="num" data-count="24">0</div><div class="cap">Hrs Support</div></div>
+    <div class="trust-item"><div class="num" data-count="9">0</div><div class="cap">Delhi Localities</div></div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="section light" id="services">
+  <div class="container">
+    <div class="eyebrow">What we do</div>
+    <h2 class="section-title">Full-service water treatment, Mehrauli to your door</h2>
+    <p class="section-sub">From a leaking membrane to a whole-home softener, one technician team handles installation, repair and upkeep.</p>
+    <div class="services-grid">
+      <div class="service-card"><div class="icon"><i class="fas fa-faucet-drip"></i></div><h3>RO Installation</h3><p>New RO setup for kitchens, offices and commercial spaces across Mehrauli &amp; South Delhi.</p><div class="tag">Same-day slots</div></div>
+      <div class="service-card"><div class="icon"><i class="fas fa-wrench"></i></div><h3>RO Repair &amp; Maintenance</h3><p>Diagnose and fix leaks, low flow, noise and taste issues fast.</p><div class="tag">On-site diagnosis</div></div>
+      <div class="service-card"><div class="icon"><i class="fas fa-tint"></i></div><h3>Water Softener Installation</h3><p>Reduce scaling from hard borewell water on geysers, pipes and RO membranes.</p><div class="tag">New: Softener</div></div>
+      <div class="service-card"><div class="icon"><i class="fas fa-filter"></i></div><h3>Filter &amp; Membrane Replacement</h3><p>Genuine sediment, carbon and RO membrane replacements on schedule.</p><div class="tag">Genuine parts</div></div>
+      <div class="service-card"><div class="icon"><i class="fas fa-file-signature"></i></div><h3>AMC Plans</h3><p>Annual maintenance contracts covering filter changes and priority visits.</p><div class="tag">Best value</div></div>
+      <div class="service-card"><div class="icon"><i class="fas fa-vial"></i></div><h3>Water Quality Testing</h3><p>On-site TDS &amp; hardness testing before recommending any fix.</p><div class="tag">Free estimate</div></div>
+      <div class="service-card"><div class="icon"><i class="fas fa-building"></i></div><h3>Commercial RO Setup</h3><p>Higher-capacity systems for offices, clinics and shops.</p><div class="tag">Bulk capacity</div></div>
+      <div class="service-card"><div class="icon"><i class="fas fa-bolt"></i></div><h3>Emergency Repair</h3><p>Urgent same-day visits for total breakdowns.</p><div class="tag">Priority</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SOFTENER SPOTLIGHT -->
+<section class="section softener-section" id="softener">
+  <div class="container softener-grid">
+    <div class="softener-copy">
+      <div class="eyebrow" style="color:var(--teal)">Water softener · New service</div>
+      <h2>Hard water is common across South Delhi — here's the fix</h2>
+      <p>A lot of Mehrauli, Chattarpur and Aya Nagar homes run on borewell or tanker supply, which usually carries more dissolved calcium and magnesium than municipal lines. Left untreated, that hardness shows up as scale on geysers, taps, and — over time — extra strain on your RO membrane.</p>
+      <p>We now install and service dedicated water softeners, sized to your household and fitted ahead of your existing RO unit.</p>
+      <ul class="softener-points">
+        <li><i class="fas fa-check-circle"></i> Longer life for geysers, taps and RO membranes</li>
+        <li><i class="fas fa-check-circle"></i> Softer skin &amp; hair from bathing water</li>
+        <li><i class="fas fa-check-circle"></i> Fits ahead of your current RO — no need to replace it</li>
+        <li><i class="fas fa-check-circle"></i> Salt refill &amp; resin service plans available</li>
+      </ul>
+      <a href="#book" class="btn btn-primary" style="margin-top:26px;"><i class="fas fa-tint"></i> Book Softener Installation</a>
+    </div>
+
+    <div class="calc-card">
+      <div class="eyebrow" style="color:var(--brass-light)">Sizing helper</div>
+      <h3 style="color:#fff;margin-bottom:6px;">Softener size estimator</h3>
+      <p style="color:#8fa3a0;font-size:.86rem;margin-bottom:20px;">A rough starting point — final sizing is confirmed on a free water test.</p>
+      <div class="calc-row">
+        <div class="calc-field">
+          <label>Household size</label>
+          <select id="calcPeople">
+            <option value="2">1–2 people</option>
+            <option value="4" selected>3–4 people</option>
+            <option value="6">5–6 people</option>
+            <option value="9">7+ people</option>
+          </select>
         </div>
+        <div class="calc-field">
+          <label>Main water source</label>
+          <select id="calcSource">
+            <option value="municipal">Municipal (MCD/DJB)</option>
+            <option value="borewell" selected>Borewell</option>
+            <option value="tanker">Tanker</option>
+            <option value="mixed">Mixed / Not sure</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary calc-btn" id="calcBtn"><i class="fas fa-calculator"></i> Estimate Softener Size</button>
+      <div class="calc-result" id="calcResult"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section light" id="about">
+  <div class="container">
+    <div class="eyebrow">About us</div>
+    <h2 class="section-title">15 years fixing Mehrauli's water problems</h2>
+    <div class="about-grid">
+      <div class="owner-card">
+        <div class="owner-image">
+          <img src="owner.jpg" alt="Rajesh Dubey, founder of C.Nath Water Solution, Mehrauli" onerror="this.src='https://ui-avatars.com/api/?name=R+Dubey&size=300&background=0E7C74&color=fff&bold=true&rounded=true'">
+          <div class="owner-badge"><i class="fas fa-award"></i></div>
+        </div>
+        <h3>Rajesh Dubey</h3>
+        <div class="role">Founder</div>
+        <div class="owner-exp">
+          <span><i class="fas fa-calendar-alt"></i> 15+ Years Experience</span>
+          <span><i class="fas fa-certificate"></i> Certified Technician</span>
+        </div>
+      </div>
+      <div class="about-text">
+        <p><strong>C.Nath Water Solution</strong> has been serving Mehrauli and the surrounding South Delhi neighborhoods since day one, helping families deal with the region's notoriously hard groundwater and inconsistent tanker supply.</p>
+        <p>We handle RO installation, repair, AMC, genuine spare parts, and now full water softener installation — so hardness gets treated before it ever reaches your RO membrane or your geyser.</p>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-number">5000+</div><div class="stat-label">Customers</div></div>
+          <div class="stat-card"><div class="stat-number">15+</div><div class="stat-label">Years</div></div>
+          <div class="stat-card"><div class="stat-number">24/7</div><div class="stat-label">Support</div></div>
+          <div class="stat-card"><div class="stat-number">100%</div><div class="stat-label">Genuine Parts</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTS STORE -->
+<section class="section light" id="parts" style="background:var(--foam);">
+  <div class="container">
+    <div class="eyebrow">Spare parts</div>
+    <h2 class="section-title">RO &amp; softener parts, delivered to Mehrauli</h2>
+    <p class="section-sub">Genuine parts for all major RO brands, plus softener salt and resin.</p>
+    <div class="parts-tabs">
+      <div class="parts-tab active" data-filter="all">All Parts</div>
+      <div class="parts-tab" data-filter="ro">RO Parts</div>
+      <div class="parts-tab" data-filter="softener">Softener Parts</div>
+    </div>
+    <div class="parts-grid" id="partsGrid">
+      <div class="part-card" data-cat="ro">
+        <div class="part-image"><img src="https://5.imimg.com/data5/ANDROID/Default/2022/4/QL/TW/KE/40916691/prod-20220411-1643412020350944256432422-jpg-250x250.jpg" alt="RO membrane spare part Mehrauli Delhi"><div class="part-badge">Bestseller</div></div>
+        <div class="part-info"><h3>RO Membrane</h3><p>75/80 GPD membrane for all RO systems</p><div class="part-price">₹1,499</div><button class="order-btn" onclick="orderPart('RO Membrane - 75/80 GPD','₹1,499')"><i class="fas fa-shopping-cart"></i> Order Now</button></div>
+      </div>
+      <div class="part-card" data-cat="ro">
+        <div class="part-image"><img src="https://5.imimg.com/data5/GLADMIN/Default/2022/3/VK/HX/IG/40916691/new-product-500x500.jpeg" alt="RO SMPS DC adapter Delhi"></div>
+        <div class="part-info"><h3>RO SMPS DC Adapter</h3><p>Replacement power adapter for RO systems</p><div class="part-price">₹999</div><button class="order-btn" onclick="orderPart('RO SMPS DC Adapter','₹999')"><i class="fas fa-shopping-cart"></i> Order Now</button></div>
+      </div>
+      <div class="part-card" data-cat="ro">
+        <div class="part-image"><img src="https://m.media-amazon.com/images/I/31dKVv7dD-L._AC_UY327_FMwebp_QL65_.jpg" alt="UV lamp RO purifier Mehrauli"><div class="part-badge premium">Premium</div></div>
+        <div class="part-info"><h3>UV Lamp</h3><p>11W UV lamp with sterilization technology</p><div class="part-price">₹199</div><button class="order-btn" onclick="orderPart('UV Lamp - 11W','₹199')"><i class="fas fa-shopping-cart"></i> Order Now</button></div>
+      </div>
+      <div class="part-card" data-cat="ro">
+        <div class="part-image"><img src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcSR5WY_KL5QIlhy1WL9qf6ho0XI8cb2FWxCyIqzBKmkpxuUwRjJZ9kftboPLlXLpAYfdpID3iR77XuAomj15Jrrh8ZyMfud1cLbWMAwkzCkPc_7nGvJrYWqExw" alt="RO storage tank body Delhi"></div>
+        <div class="part-info"><h3>RO Storage Tank</h3><p>12 litre food-grade plastic storage tank</p><div class="part-price">₹1,199</div><button class="order-btn" onclick="orderPart('RO Storage Tank - 12L','₹1,199')"><i class="fas fa-shopping-cart"></i> Order Now</button></div>
+      </div>
+      <div class="part-card" data-cat="ro">
+        <div class="part-image"><img src="https://5.imimg.com/data5/ANDROID/Default/2022/4/JQ/HG/AS/40916691/prod-20220411-1642371087065204589933720-jpg-500x500.jpg" alt="RO booster pump Delhi"></div>
+        <div class="part-info"><h3>Booster Pump</h3><p>75 GPD RO booster pump for low pressure areas</p><div class="part-price">₹1,999</div><button class="order-btn" onclick="orderPart('Booster Pump - 75 GPD','₹1,999')"><i class="fas fa-shopping-cart"></i> Order Now</button></div>
+      </div>
+      <div class="part-card" data-cat="ro">
+        <div class="part-image"><img src="https://m.media-amazon.com/images/I/41T7y64PCiS._AC_SX416_CB1169409_QL70_.jpg" alt="Digital TDS meter Mehrauli"></div>
+        <div class="part-info"><h3>Digital TDS Meter</h3><p>Portable water quality tester with LCD display</p><div class="part-price">₹229</div><button class="order-btn" onclick="orderPart('Digital TDS Meter','₹229')"><i class="fas fa-shopping-cart"></i> Order Now</button></div>
+      </div>
+      <div class="part-card" data-cat="softener">
+        <div class="part-image"><img src="https://m.media-amazon.com/images/I/61m1ZzYKZbL._AC_UF894,1000_QL80_.jpg" alt="Water softener salt Delhi"><div class="part-badge">New</div></div>
+        <div class="part-info"><h3>Softener Salt (25kg)</h3><p>Food-grade sodium chloride refill for water softeners</p><div class="part-price">₹649</div><button class="order-btn" onclick="orderPart('Softener Salt - 25kg','₹649')"><i class="fas fa-shopping-cart"></i> Order Now</button></div>
+      </div>
+      <div class="part-card" data-cat="softener">
+        <div class="part-image"><img src="https://m.media-amazon.com/images/I/61a3nAeNBgL._AC_UF1000,1000_QL80_.jpg" alt="Water softener resin Mehrauli Delhi"><div class="part-badge premium">Premium</div></div>
+        <div class="part-info"><h3>Cation Resin (25L)</h3><p>Ion-exchange resin refill for softener tanks</p><div class="part-price">₹3,299</div><button class="order-btn" onclick="orderPart('Cation Resin - 25L','₹3,299')"><i class="fas fa-shopping-cart"></i> Order Now</button></div>
+      </div>
+      <div class="part-card" data-cat="softener">
+        <div class="part-image"><img src="https://m.media-amazon.com/images/I/51H1S1eXQwL._AC_UF894,1000_QL80_.jpg" alt="Water softener control valve Delhi"></div>
+        <div class="part-info"><h3>Softener Control Valve</h3><p>Automatic regeneration valve head for softener tanks</p><div class="part-price">₹4,499</div><button class="order-btn" onclick="orderPart('Softener Control Valve','₹4,499')"><i class="fas fa-shopping-cart"></i> Order Now</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AREAS SERVED -->
+<section class="section areas-section" id="areas">
+  <div class="container">
+    <div class="eyebrow">Local service area</div>
+    <h2 class="section-title">Areas we serve around Mehrauli, Delhi</h2>
+    <p class="section-sub">Based in Mehrauli, our technicians regularly cover these South Delhi localities for RO and water softener work.</p>
+    <div class="areas-wrap">
+      <span class="area-chip"><i class="fas fa-location-dot"></i>Mehrauli</span>
+      <span class="area-chip"><i class="fas fa-location-dot"></i>Chattarpur</span>
+      <span class="area-chip"><i class="fas fa-location-dot"></i>Saket</span>
+      <span class="area-chip"><i class="fas fa-location-dot"></i>Vasant Kunj</span>
+      <span class="area-chip"><i class="fas fa-location-dot"></i>Vasant Vihar</span>
+      <span class="area-chip"><i class="fas fa-location-dot"></i>Malviya Nagar</span>
+      <span class="area-chip"><i class="fas fa-location-dot"></i>Sainik Farm</span>
+      <span class="area-chip"><i class="fas fa-location-dot"></i>Aya Nagar</span>
+      <span class="area-chip"><i class="fas fa-location-dot"></i>Green Park</span>
+      <span class="area-chip"><i class="fas fa-location-dot"></i>Hauz Khas</span>
+      <span class="area-chip"><i class="fas fa-location-dot"></i>Chhatarpur Farms</span>
+      <span class="area-chip"><i class="fas fa-location-dot"></i>Gurgaon Border (NH-8)</span>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="section book-section" id="book">
+  <div class="container">
+    <div class="eyebrow" style="color:var(--teal)">Book a visit</div>
+    <h2 class="section-title" style="color:#fff;">Schedule your RO or softener service</h2>
+    <p class="section-sub" style="color:#9fb3b0;">Fill this in and we'll confirm your slot over WhatsApp within minutes.</p>
+    <form class="booking-form" id="bookingForm">
+      <div class="success-message" id="successMessage">Thanks! Your request has been sent on WhatsApp — we'll confirm your slot shortly.</div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Full Name *</label>
+          <input type="text" id="name" name="name" required placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label for="number">Contact Number *</label>
+          <input type="tel" id="number" name="number" required placeholder="10-digit mobile" pattern="[0-9]{10}">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="service">Select Service *</label>
+        <select id="service" name="service" required>
+          <option value="">-- Choose a Service --</option>
+          <option value="ro-installation">RO Installation</option>
+          <option value="ro-repair">RO Repair &amp; Maintenance</option>
+          <option value="filter-replacement">Filter Replacement</option>
+          <option value="amc">Annual Maintenance Contract (AMC)</option>
+          <option value="water-testing">Water Quality Testing</option>
+          <option value="membrane-replacement">RO Membrane Replacement</option>
+          <option value="uv-service">UV Filter Service</option>
+          <option value="deep-cleaning">Water Purifier Deep Cleaning</option>
+          <option value="commercial-setup">Commercial RO Setup</option>
+          <option value="emergency-repair">Emergency Repair Service</option>
+          <option value="softener-installation">Water Softener Installation</option>
+          <option value="softener-service">Water Softener Service / Salt Refill</option>
+          <option value="part-ro-membrane">Buy Part: RO Membrane - ₹1,499</option>
+          <option value="part-softener-salt">Buy Part: Softener Salt 25kg - ₹649</option>
+          <option value="part-uv-lamp">Buy Part: UV Lamp - ₹199</option>
+        </select>
+      </div>
+
+      <div class="form-group" id="softenerExtra">
+        <label for="waterSource">Main Water Source (for softener sizing)</label>
+        <select id="waterSource" name="waterSource">
+          <option value="municipal">Municipal (MCD/DJB)</option>
+          <option value="borewell">Borewell</option>
+          <option value="tanker">Tanker</option>
+          <option value="mixed">Mixed / Not sure</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="address">Complete Address (Mehrauli / nearby) *</label>
+        <textarea id="address" name="address" required placeholder="Flat / house no., street, landmark, area"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="feedback">Additional Comments</label>
+        <textarea id="feedback" name="feedback" placeholder="Anything else we should know"></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn"><i class="fas fa-paper-plane"></i> Submit Request</button>
+    </form>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section light" id="faq">
+  <div class="container">
+    <div class="eyebrow">Common questions</div>
+    <h2 class="section-title">FAQ — RO &amp; softener service in Mehrauli</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">Do you provide RO service in Mehrauli, Delhi? <i class="fas fa-plus"></i></div>
+        <div class="faq-a"><p>Yes. We're based in Mehrauli and cover Mehrauli plus nearby South Delhi localities including Chattarpur, Saket, Vasant Kunj and Aya Nagar for RO and softener service.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is Delhi's water hard, and do I need a softener? <i class="fas fa-plus"></i></div>
+        <div class="faq-a"><p>Many homes here run on borewell or tanker water, which tends to be harder than municipal supply. A softener fitted ahead of your RO reduces scaling on pipes, geysers and the membrane itself.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What does RO service cost in Mehrauli? <i class="fas fa-plus"></i></div>
+        <div class="faq-a"><p>Cost depends on the issue and parts needed. Share your requirement through the booking form or call us for a transparent quote before any work begins.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Do you offer an Annual Maintenance Contract (AMC)? <i class="fas fa-plus"></i></div>
+        <div class="faq-a"><p>Yes — our AMC plans cover scheduled filter changes, membrane checks and priority repair visits.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How fast can a technician reach me in Mehrauli or nearby areas? <i class="fas fa-plus"></i></div>
+        <div class="faq-a"><p>Most requests in the Mehrauli area are scheduled same-day or next available slot; emergency repairs get priority.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can you install a water softener alongside my existing RO? <i class="fas fa-plus"></i></div>
+        <div class="faq-a"><p>Yes — softeners are usually fitted ahead of your existing RO system without needing to replace the RO unit itself.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section testimonials-section" id="testimonials">
+  <div class="container">
+    <div class="eyebrow">Reviews</div>
+    <h2 class="section-title">What Mehrauli customers say</h2>
+    <div class="testimonial-container">
+      <div class="testimonial-card">
+        <p>Excellent service! The technician came on time and solved the RO issue quickly. Highly recommend for anyone in Mehrauli.</p>
+        <div class="testimonial-author"><div class="author-avatar">RK</div><div><div class="author-name">Rajesh Kumar</div><div class="author-loc">Mehrauli</div><div class="stars">★★★★★</div></div></div>
+      </div>
+      <div class="testimonial-card">
+        <p>Got a water softener installed along with our RO service. Noticeable difference in the geyser water within weeks.</p>
+        <div class="testimonial-author"><div class="author-avatar">PS</div><div><div class="author-name">Priya Sharma</div><div class="author-loc">Chattarpur</div><div class="stars">★★★★★</div></div></div>
+      </div>
+      <div class="testimonial-card">
+        <p>Quick response, fair pricing, and the team explained the AMC plan clearly. Fixed our purifier within the hour.</p>
+        <div class="testimonial-author"><div class="author-avatar">AP</div><div><div class="author-name">Amit Patel</div><div class="author-loc">Saket</div><div class="stars">★★★★★</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>C.Nath Water Solution</h3>
+        <p style="color:#9fb3b0;font-size:.9rem;">RO installation, repair, AMC and water softener service in Mehrauli, New Delhi and nearby South Delhi areas.</p>
+        <div class="social-links">
+          <a href="https://facebook.com" target="_blank" rel="noopener" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://instagram.com" target="_blank" rel="noopener" title="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://twitter.com" target="_blank" rel="noopener" title="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="https://wa.me/919953526220" target="_blank" rel="noopener" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
         <ul>
-            <li><a href="#home" class="mobile-link">Home</a></li>
-            <li><a href="#services" class="mobile-link">Services</a></li>
-            <li><a href="#about" class="mobile-link">About Us</a></li>
-            <li><a href="#parts" class="mobile-link">RO Parts</a></li>
-            <li><a href="#book" class="mobile-link">Book Now</a></li>
-            <li><a href="#testimonials" class="mobile-link">Reviews</a></li>
-            <li><a href="#contact" class="mobile-link">Contact</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#softener">Water Softener</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#parts">RO Parts</a></li>
+          <li><a href="#book">Book Service</a></li>
         </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Areas Served</h3>
+        <ul>
+          <li>Mehrauli, New Delhi</li>
+          <li>Chattarpur &amp; Saket</li>
+          <li>Vasant Kunj &amp; Vasant Vihar</li>
+          <li>Malviya Nagar &amp; Aya Nagar</li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Contact</h3>
+        <ul>
+          <li><i class="fas fa-phone"></i> +91 9953526220</li>
+          <li><i class="fas fa-envelope"></i> rajrshdubey2052@gmail.com</li>
+          <li><i class="fas fa-map-marker-alt"></i> Mehrauli, New Delhi</li>
+          <li><i class="fas fa-clock"></i> Mon–Sun: 8AM–8PM</li>
+        </ul>
+      </div>
     </div>
+    <div class="copyright">
+      <p>&copy; 2026 C.Nath Water Solution, Mehrauli, New Delhi. All Rights Reserved. | Designed &amp; Developed By <a href="https://instaassign.in/" target="_blank" rel="noopener noreferrer">InstaAssign</a></p>
+    </div>
+  </div>
+</footer>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container">
-            <h2>Premium Water Purification Services</h2>
-            <p>Expert RO Installation, Repair & Maintenance at Your Doorstep</p>
-            <a href="#book" class="cta-button">Book Service Now</a>
-        </div>
-    </section>
+<div class="floating-stack">
+  <a href="https://wa.me/919953526220" target="_blank" class="fab whatsapp" title="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+  <a href="tel:+919953526220" class="fab call" title="Call Now"><i class="fas fa-phone-alt"></i></a>
+</div>
 
-    <!-- Features Section -->
-    <section class="features" id="services">
-        <div class="container">
-            <h2 class="section-title" style="color: #03045E;">Why Choose Us?</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Certified Technicians</h3>
-                    <p>Highly trained and certified professionals with years of experience</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <h3>24/7 Support</h3>
-                    <p>Round-the-clock customer support for emergency services</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-tools"></i>
-                    </div>
-                    <h3>Quality Parts</h3>
-                    <p>Genuine spare parts with warranty and quality assurance</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-rupee-sign"></i>
-                    </div>
-                    <h3>Affordable Pricing</h3>
-                    <p>Competitive rates with transparent billing and no hidden charges</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<script>
+// Mobile menu
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const mobileNav = document.getElementById('mobileNav');
+const mobileClose = document.getElementById('mobileClose');
+document.querySelectorAll('.mobile-link').forEach(l=>l.addEventListener('click',()=>{mobileNav.classList.remove('active');document.body.style.overflow='auto';}));
+mobileMenuBtn.addEventListener('click',()=>{mobileNav.classList.add('active');document.body.style.overflow='hidden';});
+mobileClose.addEventListener('click',()=>{mobileNav.classList.remove('active');document.body.style.overflow='auto';});
+mobileNav.addEventListener('click',e=>{if(e.target===mobileNav){mobileNav.classList.remove('active');document.body.style.overflow='auto';}});
 
-    <!-- About Us Section -->
-    <section class="about-us" id="about">
-        <div class="container">
-            <h2 class="section-title" style="color: #03045E;">About Us</h2>
-            <div class="about-content">
-                <div class="owner-section">
-                    <div class="owner-image">
-                        <img src="owner.jpg" alt="Owner" onerror="this.src='https://ui-avatars.com/api/?name=C+Nath&size=300&background=0077B6&color=fff&bold=true&rounded=true'">
-                        <div class="owner-badge">
-                            <i class="fas fa-award"></i>
-                        </div>
-                    </div>
-                    <div class="owner-info">
-                        <h3>Mr. Rajesh Dubey</h3>
-                        <p class="owner-title">Founder</p>
-                        <div class="owner-experience">
-                            <div class="exp-item">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span>15+ Years Experience</span>
-                            </div>
-                            <div class="exp-item">
-                                <i class="fas fa-certificate"></i>
-                                <span>Certified Expert</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="about-text">
-                    <p>Welcome to <strong>C.Nath Water Solution</strong> - your trusted partner in ensuring clean and safe drinking water for your family and business. With over 15 years of experience in the water purification industry, we have been serving thousands of satisfied customers across the region.</p>
-                    
-                    <p>Our mission is simple: to provide the highest quality water purification services at affordable prices. We specialize in RO installation, maintenance, repair, and genuine spare parts supply. Our team of certified technicians is dedicated to delivering excellence in every service call.</p>
-                    
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-number">5000+</div>
-                            <div class="stat-label">Happy Customers</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">15+</div>
-                            <div class="stat-label">Years Experience</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">24/7</div>
-                            <div class="stat-label">Support Available</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">100%</div>
-                            <div class="stat-label">Satisfaction Rate</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+// Header scroll
+window.addEventListener('scroll',()=>{
+  document.getElementById('header').classList.toggle('scrolled', window.scrollY>40);
+});
 
-    <!-- RO Parts Store Section -->
-    <section class="ro-parts-store" id="parts">
-        <div class="container">
-            <h2 class="section-title">RO Parts & Accessories</h2>
-            <p style="text-align: center; margin-bottom: 40px; color: #555; font-size: 1.1rem;">Genuine quality spare parts for all major RO brands</p>
-            
-            <div class="parts-grid">
-                <div class="part-card">
-                    <div class="part-image">
-                        <img src="https://5.imimg.com/data5/ANDROID/Default/2022/4/QL/TW/KE/40916691/prod-20220411-1643412020350944256432422-jpg-250x250.jpg" alt="RO Membrane">
-                        <div class="part-badge">Bestseller</div>
-                    </div>
-                    <div class="part-info">
-                        <h3>RO Membrane</h3>
-                        <p>75/80 GPD Membrane for all RO systems</p>
-                        <div class="part-price">₹1,499</div>
-                        <button class="order-btn" onclick="orderPart('RO Membrane - 75/80 GPD', '₹1,499')">
-                            <i class="fas fa-shopping-cart"></i> Order Now
-                        </button>
-                    </div>
-                </div>
+// Smooth scroll for nav anchors
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',function(e){
+    const t=document.querySelector(this.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
+  });
+});
 
-                <div class="part-card">
-                    <div class="part-image">
-                        <img src="https://5.imimg.com/data5/GLADMIN/Default/2022/3/VK/HX/IG/40916691/new-product-500x500.jpeg" alt="RO SMPS DC Adapter">
-                    </div>
-                    <div class="part-info">
-                        <h3>RO SMPS DC Adapter</h3>
-                        <p>Complete set of Sediment, Carbon & Post Carbon filters</p>
-                        <div class="part-price">₹999</div>
-                        <button class="order-btn" onclick="orderPart('RO SMPS DC Adapter (3pcs)', '₹999')">
-                            <i class="fas fa-shopping-cart"></i> Order Now
-                        </button>
-                    </div>
-                </div>
+// Hero readout animation (count up + bars) once visible
+function animateReadout(){
+  const rawTarget=560, pureTarget=32;
+  const rawEl=document.getElementById('tdsRaw'), pureEl=document.getElementById('tdsPure');
+  const barRaw=document.getElementById('barRaw'), barPure=document.getElementById('barPure');
+  let start=null, duration=1400;
+  function step(ts){
+    if(!start) start=ts;
+    const p=Math.min((ts-start)/duration,1);
+    rawEl.innerHTML = Math.round(p*rawTarget)+'<span class="unit">ppm</span>';
+    pureEl.innerHTML = Math.round(p*pureTarget)+'<span class="unit">ppm</span>';
+    if(p<1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+  requestAnimationFrame(()=>{ barRaw.style.width='100%'; barPure.style.width=(pureTarget/rawTarget*100)+'%'; });
+}
+animateReadout();
 
-                <div class="part-card">
-                    <div class="part-image">
-                        <img src="https://m.media-amazon.com/images/I/31dKVv7dD-L._AC_UY327_FMwebp_QL65_.jpg" alt="UV Lamp">
-                        <div class="part-badge">Premium</div>
-                    </div>
-                    <div class="part-info">
-                        <h3>UV Lamp</h3>
-                        <p>11W UV lamp with sterilization technology</p>
-                        <div class="part-price">₹199</div>
-                        <button class="order-btn" onclick="orderPart('UV Lamp - 11W', '₹199')">
-                            <i class="fas fa-shopping-cart"></i> Order Now
-                        </button>
-                    </div>
-                </div>
+// Stat counters on scroll
+const counters = document.querySelectorAll('.trust-item .num');
+const counterObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      const el=entry.target, target=+el.dataset.count;
+      let start=null;
+      function step(ts){
+        if(!start) start=ts;
+        const p=Math.min((ts-start)/1200,1);
+        el.textContent = Math.round(p*target) + (target>=1000?'+':(el===counters[2]?'/7':(el===counters[1]?'+':'+')));
+        if(p<1) requestAnimationFrame(step); else el.textContent = target + (target===5000?'+':target===15?'+':target===24?'/7':'+');
+      }
+      requestAnimationFrame(step);
+      counterObserver.unobserve(el);
+    }
+  });
+},{threshold:0.4});
+counters.forEach(c=>counterObserver.observe(c));
 
-                <div class="part-card">
-                    <div class="part-image">
-                        <img src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcSR5WY_KL5QIlhy1WL9qf6ho0XI8cb2FWxCyIqzBKmkpxuUwRjJZ9kftboPLlXLpAYfdpID3iR77XuAomj15Jrrh8ZyMfud1cLbWMAwkzCkPc_7nGvJrYWqExw" alt="RO Body">
-                    </div>
-                    <div class="part-info">
-                        <h3>RO Body</h3>
-                        <p>12 Liter food grade plastic water storage tank</p>
-                        <div class="part-price">₹1,199</div>
-                        <button class="order-btn" onclick="orderPart('RO Body - 12L', '₹1,199')">
-                            <i class="fas fa-shopping-cart"></i> Order Now
-                        </button>
-                    </div>
-                </div>
+// Testimonial reveal on scroll
+const testimonialObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.style.opacity='1';
+      entry.target.style.transform='translateY(0)';
+    }
+  });
+},{threshold:0.15});
+document.querySelectorAll('.testimonial-card').forEach(c=>testimonialObserver.observe(c));
 
-                <div class="part-card">
-                    <div class="part-image">
-                        <img src="https://5.imimg.com/data5/ANDROID/Default/2022/4/JQ/HG/AS/40916691/prod-20220411-1642371087065204589933720-jpg-500x500.jpg" alt="RO Pump">
-                    </div>
-                    <div class="part-info">
-                        <h3>Booster Pump</h3>
-                        <p>75 GPD RO booster pump for low pressure areas</p>
-                        <div class="part-price">₹1,999</div>
-                        <button class="order-btn" onclick="orderPart('Booster Pump - 75 GPD', '₹1,999')">
-                            <i class="fas fa-shopping-cart"></i> Order Now
-                        </button>
-                    </div>
-                </div>
+// FAQ accordion
+document.querySelectorAll('.faq-item').forEach(item=>{
+  const q=item.querySelector('.faq-q'), a=item.querySelector('.faq-a');
+  q.addEventListener('click',()=>{
+    const isOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>{i.classList.remove('open'); i.querySelector('.faq-a').style.maxHeight=null;});
+    if(!isOpen){ item.classList.add('open'); a.style.maxHeight=a.scrollHeight+'px'; }
+  });
+});
 
-                <div class="part-card">
-                    <div class="part-image">
-                        <img src="https://m.media-amazon.com/images/I/41T7y64PCiS._AC_SX416_CB1169409_QL70_.jpg" alt="TDS Meter">
-                    </div>
-                    <div class="part-info">
-                        <h3>Digital TDS Meter</h3>
-                        <p>Portable water quality tester with LCD display</p>
-                        <div class="part-price">₹229</div>
-                        <button class="order-btn" onclick="orderPart('Digital TDS Meter', '₹229')">
-                            <i class="fas fa-shopping-cart"></i> Order Now
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+// Parts tab filter
+document.querySelectorAll('.parts-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.parts-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    const filter=tab.dataset.filter;
+    document.querySelectorAll('#partsGrid .part-card').forEach(card=>{
+      card.style.display = (filter==='all' || card.dataset.cat===filter) ? '' : 'none';
+    });
+  });
+});
 
-    <!-- Book Service Section -->
-    <section class="book-service" id="book">
-        <div class="container">
-            <h2 class="section-title">Book Your Service</h2>
-            <form class="booking-form" id="bookingForm">
-                <div class="success-message" id="successMessage">
-                    Thank you! Your service request has been submitted successfully. We'll contact you shortly.
-                </div>
-                
-                <div class="form-group">
-                    <label for="name">Full Name *</label>
-                    <input type="text" id="name" name="name" required placeholder="Enter your full name">
-                </div>
+// Softener sizing calculator
+document.getElementById('calcBtn').addEventListener('click',()=>{
+  const people = +document.getElementById('calcPeople').value;
+  const source = document.getElementById('calcSource').value;
+  const dailyLitresPerPerson = 120; // illustrative average household usage
+  const dailyUsage = people * dailyLitresPerPerson;
+  let hardnessFactor = 1;
+  let sourceNote = '';
+  if(source==='borewell'){ hardnessFactor = 1.3; sourceNote = 'Borewell water in this area often runs harder, so we size a bit larger.'; }
+  else if(source==='tanker'){ hardnessFactor = 1.2; sourceNote = 'Tanker supply hardness varies by tanker source; sizing includes a buffer.'; }
+  else if(source==='mixed'){ hardnessFactor = 1.15; sourceNote = "We'll confirm exact hardness with a free on-site test."; }
+  else { hardnessFactor = 1; sourceNote = 'Municipal supply is typically softer, but still varies by locality.'; }
 
-                <div class="form-group">
-                    <label for="number">Contact Number *</label>
-                    <input type="tel" id="number" name="number" required placeholder="Enter your 10-digit mobile number" pattern="[0-9]{10}">
-                </div>
+  const resinLitres = Math.round((dailyUsage * hardnessFactor) / 90);
+  const serviceMonths = source==='borewell' ? 4 : source==='tanker' ? 5 : 6;
 
-                <div class="form-group">
-                    <label for="service">Select Service *</label>
-                    <select id="service" name="service" required>
-                        <option value="">-- Choose a Service --</option>
-                        <option value="ro-installation">RO Installation</option>
-                        <option value="ro-repair">RO Repair & Maintenance</option>
-                        <option value="filter-replacement">Filter Replacement</option>
-                        <option value="amc">Annual Maintenance Contract (AMC)</option>
-                        <option value="water-testing">Water Quality Testing</option>
-                        <option value="membrane-replacement">RO Membrane Replacement</option>
-                        <option value="uv-service">UV Filter Service</option>
-                        <option value="deep-cleaning">Water Purifier Deep Cleaning</option>
-                        <option value="commercial-setup">Commercial RO Setup</option>
-                        <option value="emergency-repair">Emergency Repair Service</option>
-                        <option value="part-ro-membrane">Buy Part: RO Membrane - ₹1,499</option>
-                        <option value="part-inline-filter">Buy Part: RO SMPS DC Adapter - ₹999</option>
-                        <option value="part-uv-lamp">Buy Part: UV Lamp - ₹199</option>
-                        <option value="part-storage-tank">Buy Part: RO Body - ₹1,199</option>
-                        <option value="part-booster-pump">Buy Part: Booster Pump - ₹1,999</option>
-                        <option value="part-tds-meter">Buy Part: Digital TDS Meter - ₹229</option>
-                    </select>
-                </div>
+  const result = document.getElementById('calcResult');
+  result.innerHTML = 'Estimated capacity: <strong>~'+dailyUsage+' L/day</strong> household usage · Suggested resin volume: <strong>~'+resinLitres+' L</strong> · Recommended service interval: <strong>every '+serviceMonths+' months</strong>.<br><br>'+sourceNote+' This is a starting estimate — book a free water test for an exact recommendation.';
+  result.classList.add('show');
+});
 
-                <div class="form-group">
-                    <label for="address">Complete Address *</label>
-                    <textarea id="address" name="address" required placeholder="Enter your complete address with landmark"></textarea>
-                </div>
+// Show/hide softener water-source field based on selected service
+const serviceSelect = document.getElementById('service');
+const softenerExtra = document.getElementById('softenerExtra');
+serviceSelect.addEventListener('change', ()=>{
+  if(serviceSelect.value.startsWith('softener')){
+    softenerExtra.classList.add('show');
+  } else {
+    softenerExtra.classList.remove('show');
+  }
+});
 
-                <div class="form-group">
-                    <label for="feedback">Additional Comments / Feedback</label>
-                    <textarea id="feedback" name="feedback" placeholder="Share any specific requirements or feedback"></textarea>
-                </div>
+// Booking form -> WhatsApp
+document.getElementById('bookingForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const name=document.getElementById('name').value;
+  const number=document.getElementById('number').value;
+  const service=serviceSelect.selectedOptions[0].text;
+  const waterSource = softenerExtra.classList.contains('show') ? document.getElementById('waterSource').selectedOptions[0].text : null;
+  const address=document.getElementById('address').value;
+  const feedback=document.getElementById('feedback').value;
 
-                <button type="submit" class="submit-btn">
-                    <i class="fas fa-paper-plane"></i> Submit Request
-                </button>
-            </form>
-        </div>
-    </section>
+  let message = '*New Service Request from Website*%0A%0A' +
+    '👤 *Name:* ' + encodeURIComponent(name) + '%0A' +
+    '📱 *Contact:* ' + number + '%0A' +
+    '🔧 *Service:* ' + encodeURIComponent(service) + '%0A';
+  if(waterSource){ message += '💧 *Water Source:* ' + encodeURIComponent(waterSource) + '%0A'; }
+  message += '📍 *Address:* ' + encodeURIComponent(address) + '%0A' +
+    '💬 *Comments:* ' + encodeURIComponent(feedback || 'None');
 
-    <!-- Testimonials Section -->
-    <section class="testimonials" id="testimonials">
-        <div class="container">
-            <h2 class="section-title" style="color: #03045E;">What Our Customers Say</h2>
-            <div class="testimonial-container">
-                <div class="testimonial-card">
-                    <p>Excellent service! The technician was very professional and solved the issue quickly. Highly recommended for RO services. They came on time and completed the work efficiently.</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">RK</div>
-                        <div class="author-info">
-                            <div class="author-name">Rajesh Kumar</div>
-                            <div class="stars">★★★★★</div>
-                        </div>
-                    </div>
-                </div>
+  window.open('https://wa.me/919953526220?text=' + message, '_blank');
 
-                <div class="testimonial-card">
-                    <p>Best RO service in the area. Very satisfied with their AMC package. Quick response and professional work. The team is knowledgeable and prices are reasonable.</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">PS</div>
-                        <div class="author-info">
-                            <div class="author-name">Priya Sharma</div>
-                            <div class="stars">★★★★★</div>
-                        </div>
-                    </div>
-                </div>
+  const successMessage = document.getElementById('successMessage');
+  successMessage.classList.add('show');
+  this.reset();
+  softenerExtra.classList.remove('show');
+  setTimeout(()=>successMessage.classList.remove('show'), 5000);
+});
 
-                <div class="testimonial-card">
-                    <p>Quick response and reasonable pricing. The team is very knowledgeable and friendly. Great experience! They fixed my water purifier within an hour. Excellent service quality.</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">AP</div>
-                        <div class="author-info">
-                            <div class="author-name">Amit Patel</div>
-                            <div class="stars">★★★★★</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>C.Nath Water Solution</h3>
-                    <p>Your trusted partner for all water purification needs. We ensure pure and safe drinking water for your family.</p>
-                    <div class="social-links">
-                        <a href="https://facebook.com" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://instagram.com" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="https://twitter.com" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="https://wa.me/919953526220" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                </div>
-
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#services">Our Services</a></li>
-                        <li><a href="#about">About Us</a></li>
-                        <li><a href="#parts">RO Parts</a></li>
-                        <li><a href="#book">Book Service</a></li>
-                        <li><a href="#testimonials">Testimonials</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-section">
-                    <h3>Our Services</h3>
-                    <ul>
-                        <li><a href="#book">RO Installation</a></li>
-                        <li><a href="#book">Repair & Maintenance</a></li>
-                        <li><a href="#book">AMC Plans</a></li>
-                        <li><a href="#book">Emergency Services</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-section">
-                    <h3>Contact Info</h3>
-                    <ul>
-                        <li><i class="fas fa-phone"></i> +91 9953526220</li>
-                        <li><i class="fas fa-envelope"></i> rajrshdubey2052@gmail.com</li>
-                        <li><i class="fas fa-map-marker-alt"></i> Mehrauli, New Delhi</li>
-                        <li><i class="fas fa-clock"></i> Mon-Sun: 8AM - 8PM</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="copyright">
-                <p>&copy; 2026 C.Nath Water Solution. All Rights Reserved. | Designed & Developed By <a href="https://instaassign.in/" target="_blank" rel="noopener noreferrer">InstaAssign</a></p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Floating Contact Button -->
-    <a href="tel:+919953526220" class="floating-contact" title="Call Us Now">
-        <i class="fas fa-phone-alt"></i>
-    </a>
-
-    <script>
-        // Mobile Menu Toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileNav = document.getElementById('mobileNav');
-        const mobileClose = document.getElementById('mobileClose');
-        const mobileLinks = document.querySelectorAll('.mobile-link');
-
-        mobileMenuBtn.addEventListener('click', function() {
-            mobileNav.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
-
-        mobileClose.addEventListener('click', function() {
-            mobileNav.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        });
-
-        // Close menu when clicking on a link
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                mobileNav.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            });
-        });
-
-        // Close menu when clicking outside
-        mobileNav.addEventListener('click', function(e) {
-            if (e.target === mobileNav) {
-                mobileNav.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-        });
-        
-        // Header scroll effect
-        window.addEventListener('scroll', function() {
-            const header = document.getElementById('header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Form submission with WhatsApp integration
-        document.getElementById('bookingForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const name = document.getElementById('name').value;
-            const number = document.getElementById('number').value;
-            const service = document.getElementById('service').selectedOptions[0].text;
-            const address = document.getElementById('address').value;
-            const feedback = document.getElementById('feedback').value;
-
-            // Create WhatsApp message
-            const message = `*New Service Request from Website*%0A%0A` +
-                          `👤 *Name:* ${encodeURIComponent(name)}%0A` +
-                          `📱 *Contact:* ${number}%0A` +
-                          `🔧 *Service:* ${encodeURIComponent(service)}%0A` +
-                          `📍 *Address:* ${encodeURIComponent(address)}%0A` +
-                          `💬 *Comments:* ${encodeURIComponent(feedback || 'None')}`;
-
-            // Send to WhatsApp
-            const whatsappNumber = '919953526220'; // Replace with your WhatsApp number
-            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${message}`;
-            
-            // Open WhatsApp
-            window.open(whatsappURL, '_blank');
-
-            // Show success message
-            const successMessage = document.getElementById('successMessage');
-            successMessage.classList.add('show');
-
-            // Reset form
-            this.reset();
-
-            // Hide success message after 5 seconds
-            setTimeout(function() {
-                successMessage.classList.remove('show');
-            }, 5000);
-        });
-
-        // Function to order parts
-        function orderPart(partName, price) {
-            const message = `*New Part Order from Website*%0A%0A` +
-                          `🛒 *Product:* ${encodeURIComponent(partName)}%0A` +
-                          `💰 *Price:* ${price}%0A%0A` +
-                          `I would like to order this product. Please confirm availability.`;
-
-            const whatsappNumber = '919953526220'; // Replace with your WhatsApp number
-            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${message}`;
-            
-            window.open(whatsappURL, '_blank');
-        }
-
-        // Add fade transition to testimonial cards on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.testimonial-card').forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(card);
-        });
-    </script>
+// Order part -> WhatsApp
+function orderPart(partName, price){
+  const message = '*New Part Order from Website*%0A%0A' +
+    '🛒 *Product:* ' + encodeURIComponent(partName) + '%0A' +
+    '💰 *Price:* ' + price + '%0A%0A' +
+    'I would like to order this product. Please confirm availability.';
+  window.open('https://wa.me/919953526220?text=' + message, '_blank');
+}
+</script>
 </body>
-
 </html>
-
-
