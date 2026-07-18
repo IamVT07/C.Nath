@@ -102,16 +102,7 @@ Install dependencies
 npm install
 ```
 
-Create a `.env` file
 
-```env
-PORT=5000
-
-MONGODB_URI=Your MongoDB URI
-
-EMAIL_USER=yourgmail@gmail.com
-
-EMAIL_PASS=Your Gmail App Password
 ```
 
 Run the project
