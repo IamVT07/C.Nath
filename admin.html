@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Review Moderation</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  *{box-sizing:border-box;}
+  body{font-family:'Inter',system-ui,sans-serif;background:#E8FBFF;margin:0;color:#0B2740;}
+  .wrap{max-width:900px;margin:0 auto;padding:40px 20px;}
+  h1{font-size:1.6rem;margin-bottom:6px;}
+  .sub{color:#4E6F86;margin-bottom:28px;}
+  .login-box{max-width:360px;margin:80px auto;background:#fff;border-radius:14px;padding:32px;box-shadow:0 10px 30px rgba(0,0,0,.08);}
+  .login-box input{width:100%;padding:12px;border:1.5px solid #C9F3FF;border-radius:8px;margin:12px 0;font-size:1rem;}
+  .login-box button, .card button{cursor:pointer;border:none;border-radius:8px;font-weight:600;padding:10px 16px;font-size:.9rem;}
+  .login-box button{width:100%;background:#0091E8;color:#fff;padding:12px;}
+  .error{color:#c0392b;font-size:.88rem;min-height:20px;}
+  .tabs{display:flex;gap:8px;margin-bottom:20px;}
+  .tab{padding:8px 16px;border-radius:20px;border:1px solid #C9F3FF;background:#fff;cursor:pointer;font-size:.85rem;font-weight:600;color:#4E6F86;}
+  .tab.active{background:#052E5C;color:#00E5C7;border-color:#052E5C;}
+  .card{background:#fff;border:1px solid #C9F3FF;border-radius:12px;padding:18px 20px;margin-bottom:14px;}
+  .row-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+  .name{font-weight:700;}
+  .area{font-size:.78rem;color:#4E6F86;}
+  .stars{color:#FF7A45;}
+  .badge{font-size:.7rem;font-weight:700;padding:4px 10px;border-radius:12px;text-transform:uppercase;}
+  .badge.pending{background:#FFF3CD;color:#8a6d00;}
+  .badge.approved{background:#D4F7EA;color:#0a7a4c;}
+  .badge.rejected{background:#FFE0E0;color:#b03030;}
+  .text{margin:10px 0;font-size:.94rem;}
+  .time{font-size:.75rem;color:#4E6F86;margin-bottom:12px;}
+  .actions{display:flex;gap:8px;}
+  .btn-approve{background:#0a7a4c;color:#fff;}
+  .btn-reject{background:#8a6d00;color:#fff;}
+  .btn-delete{background:#b03030;color:#fff;}
+  .empty{text-align:center;color:#4E6F86;padding:40px;}
+  .logout{float:right;background:none;border:1px solid #C9F3FF;padding:8px 14px;border-radius:8px;cursor:pointer;color:#4E6F86;}
+</style>
+</head>
+<body>
+
+<div id="loginScreen" class="login-box">
+  <h1 >Admin Login</h1>
+  <p class="sub">Enter the admin password to manage reviews.</p>
+  <input type="password" id="passwordInput" placeholder="Admin password">
+  <div class="error" id="loginError"></div>
+  <button id="loginBtn">Login</button>
+</div>
+
+<div class="wrap" id="dashboard">
+  <button class="logout" id="logoutBtn">Logout</button>
+  <h1>Review Moderation</h1>
+  <p class="sub">Approve reviews to make them public on your site, or reject spam/inappropriate ones.</p>
+  <div class="tabs">
+    <div class="tab active" data-filter="pending">Pending</div>
+    <div class="tab" data-filter="approved">Approved</div>
+    <div class="tab" data-filter="rejected">Rejected</div>
+    <div class="tab" data-filter="all">All</div>
+  </div>
+  <div id="list"></div>
+  <div class="empty" id="emptyMsg" >No reviews here.</div>
+</div>
+
+<script>
+const API_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ? 'http://localhost:5000/api'
+  : '/api';
+
+const loginScreen = document.getElementById('loginScreen');
+const dashboard = document.getElementById('dashboard');
+const loginBtn = document.getElementById('loginBtn');
+const passwordInput = document.getElementById('passwordInput');
+const loginError = document.getElementById('loginError');
+const list = document.getElementById('list');
+const emptyMsg = document.getElementById('emptyMsg');
+let allReviews = [];
+let currentFilter = 'pending';
+
+function getToken(){ return sessionStorage.getItem('cnath_admin_token'); }
+
+async function tryLoad(token){
+  const res = await fetch(API_BASE + '/admin/reviews', { headers: { 'x-admin-token': token } });
+  if(!res.ok) throw new Error('bad auth');
+  return res.json();
+}
+
+function showLogin(){
+  loginScreen.style.display = 'block';
+  dashboard.style.display = 'none';
+}
+function showDashboard(){
+  loginScreen.style.display = 'none';
+  dashboard.style.display = 'block';
+}
+
+async function login(){
+  loginError.textContent = '';
+  const pw = passwordInput.value.trim();
+  if(!pw){ loginError.textContent = 'Enter the password.'; return; }
+  loginBtn.disabled = true; loginBtn.textContent = 'Checking…';
+  try{
+    allReviews = await tryLoad(pw);
+    sessionStorage.setItem('cnath_admin_token', pw);
+    showDashboard();
+    render();
+  }catch(err){
+    showLogin();
+    loginError.textContent = 'Wrong password or server not reachable.';
+  }finally{
+    loginBtn.disabled = false; loginBtn.textContent = 'Login';
+  }
+}
+loginBtn.addEventListener('click', login);
+passwordInput.addEventListener('keydown', e=>{ if(e.key==='Enter') login(); });
+
+document.getElementById('logoutBtn').addEventListener('click', ()=>{
+  sessionStorage.removeItem('cnath_admin_token');
+  location.reload();
+});
+
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    currentFilter = tab.dataset.filter;
+    render();
+  });
+});
+
+function render(){
+  const items = currentFilter==='all' ? allReviews : allReviews.filter(r=>r.status===currentFilter);
+  if(!items.length){ list.innerHTML=''; emptyMsg.style.display='block'; return; }
+  emptyMsg.style.display='none';
+  list.innerHTML = items.map(r=>{
+    const stars = '★'.repeat(r.rating||0) + '☆'.repeat(5-(r.rating||0));
+    const when = r.createdAt ? new Date(r.createdAt).toLocaleString('en-IN') : '';
+    return `<div class="card">
+      <div class="row-top">
+        <div><span class="name">${escapeHtml(r.name)}</span> ${r.area?'<span class="area"> · '+escapeHtml(r.area)+'</span>':''}</div>
+        <span class="badge ${r.status}">${r.status}</span>
+      </div>
+      <div class="stars">${stars}</div>
+      <div class="text">${escapeHtml(r.text)}</div>
+      <div class="time">${when}</div>
+      <div class="actions">
+        ${r.status!=='approved' ? `<button class="btn-approve" onclick="act('${r.id}','approve')"><i class="fas fa-check"></i> Approve</button>` : ''}
+        ${r.status!=='rejected' ? `<button class="btn-reject" onclick="act('${r.id}','reject')"><i class="fas fa-ban"></i> Reject</button>` : ''}
+        <button class="btn-delete" onclick="del('${r.id}')"><i class="fas fa-trash"></i> Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function escapeHtml(str){
+  return String(str||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+async function act(id, action){
+  try{
+    const res = await fetch(`${API_BASE}/admin/reviews/${id}/${action}`, {
+      method:'POST', headers:{ 'x-admin-token': getToken() }
+    });
+    if(!res.ok) throw new Error('failed');
+    allReviews = await tryLoad(getToken());
+    render();
+  }catch(err){ alert('Action failed. Try again.'); }
+}
+async function del(id){
+  if(!confirm('Permanently delete this review?')) return;
+  try{
+    const res = await fetch(`${API_BASE}/admin/reviews/${id}`, {
+      method:'DELETE', headers:{ 'x-admin-token': getToken() }
+    });
+    if(!res.ok) throw new Error('failed');
+    allReviews = await tryLoad(getToken());
+    render();
+  }catch(err){ alert('Delete failed. Try again.'); }
+}
+
+(async function(){
+  showLogin(); // default state — makes sure they never overlap
+  const token = getToken();
+  if(token){
+    try{
+      allReviews = await tryLoad(token);
+      showDashboard();
+      render();
+    }catch(err){
+      sessionStorage.removeItem('cnath_admin_token');
+      showLogin();
+    }
+  }
+})();
+</script>
+</body>
+</html>
