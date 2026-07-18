@@ -134,3 +134,5 @@ app.delete('/api/admin/reviews/:id', requireAdmin, async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`API running on :${PORT}`));
+
+module.exports = app;
