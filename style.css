@@ -143,10 +143,10 @@ header.scrolled .header-content{padding:10px 0;}
 .brand-info{min-width:0;overflow:hidden;}
 .brand-info h1{font-size:1.15rem;color:#fff;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .brand-info p{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;color:var(--brass-light);text-transform:uppercase;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-nav{flex-shrink:0;}
-nav ul{display:flex;list-style:none;gap:28px;}
-nav a{text-decoration:none;color:#dff3ff;font-weight:500;font-size:.92rem;transition:color .2s;}
-nav a:hover{color:var(--teal);}
+header nav{flex-shrink:0;}
+header nav ul{display:flex;list-style:none;gap:28px;}
+header nav a{text-decoration:none;color:#dff3ff;font-weight:500;font-size:.92rem;transition:color .2s;}
+header nav a:hover{color:var(--teal);}
 
 /* Hamburger button - animated bars, 44px tap target, never gets squeezed off-screen */
 .mobile-menu{
@@ -180,10 +180,16 @@ nav a:hover{color:var(--teal);}
   box-shadow:-20px 0 50px rgba(0,0,0,.35);
 }
 .mobile-nav.active{transform:translateX(0);}
-.mobile-nav ul{list-style:none;margin-top:50px;}
+.mobile-nav ul{display:block;list-style:none;margin-top:50px;overflow-y:auto;}
 .mobile-nav ul li{border-bottom:1px solid rgba(255,255,255,.08);}
-.mobile-nav ul li a{display:block;padding:18px 28px;color:#fff;text-decoration:none;font-size:1.08rem;font-weight:600;transition:color .2s,background .2s;}
-.mobile-nav ul li a:hover, .mobile-nav ul li a:active{color:var(--teal);background:rgba(255,255,255,.06);}
+.mobile-nav ul li a{
+  display:flex;align-items:center;gap:14px;padding:16px 28px;color:#fff;text-decoration:none;
+  font-size:1.04rem;font-weight:600;transition:color .2s,background .2s,padding-left .2s;
+}
+.mobile-nav ul li a i{width:20px;text-align:center;color:var(--teal);font-size:.95rem;flex-shrink:0;}
+.mobile-nav ul li a:hover, .mobile-nav ul li a:active{
+  color:var(--teal);background:rgba(255,255,255,.07);padding-left:34px;
+}
 .mobile-nav .mobile-nav-cta{margin:24px 24px 0;}
 .mobile-close{
   position:absolute;top:16px;right:16px;width:44px;height:44px;
@@ -432,7 +438,7 @@ footer{background:var(--ink-2);color:#dbeeff;padding:60px 0 24px;overflow-x:hidd
   .footer-content{grid-template-columns:1fr 1fr;}
 }
 @media (max-width:768px){
-  nav ul{display:none;}
+  header nav ul{display:none;}
   .mobile-menu{display:flex;}
   .section{padding:64px 0;}
   .readout-row{grid-template-columns:1fr;}
