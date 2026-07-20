@@ -421,8 +421,8 @@
           <div class="review-skeleton"></div>
           <div class="review-skeleton"></div>
         </div>
-        <div id="reviewsEmpty" class="review-empty" >Be the first to leave a review!</div>
-        <div id="reviewsOffline" class="review-empty">Reviews are being set up — check back soon, or see our <a href="#testimonials">featured reviews</a> below.</div>
+        <div id="reviewsEmpty" class="review-empty" ></div>
+        <div id="reviewsOffline" class="review-empty"></div>
       </div>
     </div>
   </div>
@@ -433,7 +433,7 @@
   <div class="container">
     <div class="eyebrow">Book a visit</div>
     <h2 class="section-title">Schedule your RO or softener service</h2>
-    <p class="section-sub">Fill this in and we'll confirm your slot over WhatsApp within minutes.</p>
+    <p class="section-sub">Fill this in and we'll confirm your slot over WhatsApp.</p>
     <form class="booking-form" id="bookingForm">
       <div class="success-message" id="successMessage">Thanks! Your request has been sent on WhatsApp — we'll confirm your slot shortly.</div>
 
@@ -894,7 +894,7 @@ function orderPart(partName, price){
           body: JSON.stringify({ name, area, text, rating: selectedRating })
         });
         if(!res.ok) throw new Error('submit failed');
-        statusEl.textContent='Thanks! Your review has been submitted for approval.';
+        statusEl.textContent='Thanks! Your review has been submitted.';
         statusEl.classList.add('success');
         form.reset();
         setStars(0);
